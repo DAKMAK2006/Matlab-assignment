@@ -40,14 +40,19 @@ run('Pick_And_Place/Scripts_Data/startup_Contact_Forces_Library.m')
 
 This registers the custom contact force library the model depends on. Skip this and you'll get missing block errors that have nothing to do with what you're supposed to fix.
 
+This will open a blank webpage, you can ignore that and continue with your work.
+
 ### 4. Open the model
 
 ```
 Pick_And_Place/Examples/3D/Gripper_2Belts/Gripper_2Belts.slx
 ```
 
-Run it. Read every error. Do not start fixing things yet.
-
+Run it. You might come across errors like
+```
+Warning: The image file in 'image' drawing commands in block 'Gripper_2Belts/Box to Belt In Force' cannot be found on MATLAB path or has an invalid path. 
+```
+You can safely ignore them.
 ---
 
 ## What You're Starting With
@@ -98,9 +103,7 @@ This is what Belt Out looks like when you open it — one connection is missing:
 
 ![Belt Out unconnected](images/Belt_Out_IN.png)
 
-Belt In is already complete. Compare the two carefully and find what's different. This is what Belt Out should look like:
-
-![Belt Out connected](images/Belt_Out_C.png)
+The hint to complete the Belt Out is that Belt In is already complete. Compare the two carefully and find what's different.
 
 **To understand how the roller chain works:**
 → [Conveyor Belt example — MathWorks](https://www.mathworks.com/help/sm/ug/conveyor-belt.html)
@@ -136,20 +139,14 @@ Add another `rigid transform`, name it `Transform Belt In`. Configure it as foll
 ![Transform Belt In settings](images/Transform_belt_in.png)
 
 **−90° rotation about +Z** — to align the entry belt with the system's coordinate frame. Same exercise: draw it first, then configure.
-
+(We have given you direct parameters for rigid transform cause we want to avoid for you getting stuck on this but we do expect for you to know what is a rigid transform🙂)
 ### Goto and Goto1
 
 Goto blocks let you route signals between parts of a model without drawing wires across the canvas. A **Goto** tags a signal with a name; a **From** block anywhere in the model picks it up using the same tag.
 
 Search for `goto` in the Library Browser. Add two.
 
-Configure the first (`Goto`) as shown:
-
-![Goto settings](images/Goto.png)
-
-Configure the second (`Goto1`) as shown:
-
-![Goto1 settings](images/Goto1.png)
+Configure the first (`Goto`) as `Out` and second one (`Goto1`) as `In`. 
 
 → [Goto block — MathWorks docs](https://www.mathworks.com/help/simulink/slref/goto.html)
 
@@ -157,11 +154,13 @@ Configure the second (`Goto1`) as shown:
 
 ## Wiring the Top Level
 
-Once all four blocks are added and configured, connect everything. This is what the completed top-level model looks like:
+Once all four blocks are added and configured, connect everything. This will be the ultimate test for you. The given hints below are good enough for you to net get lost whatsoever.
 
-![Complete connections](images/Complete_Conn.png)
+- The World Frame is the root. Everything physical(there are 4 blocks representing these physical things) in this model traces back to it through a chain of transforms. Follow that chain.
 
-Study this carefully before drawing a single wire. Trace every signal from source to destination. Understand what each connection represents physically before you make it.
+- The Force blocks have two inputs that need attention — a physical frame port (PlaB) and a contact parameter (FacF). If you see ??? on the block then for now you can ignore it, we are here to run the bot.
+
+We want you all to think on these hints properly and do a bit of research on your own and you will be able to run the simulation🙂
 
 **To understand the overall Simscape Multibody structure:**
 → [Getting Started with Simscape Multibody](https://www.mathworks.com/help/sm/getting-started-with-simscape-multibody.html)
@@ -189,14 +188,13 @@ This plots the box's position over time. If pick-and-place worked, you'll see th
 
 ## Submission
 
-Push to a **public GitHub repository** containing:
+Make a public folder in google drive containing:
 
 ```
 /
 ├── Gripper_2Belts_solution.slx    ← your completed model
 ├── screen_recording.mp4           ← screen recording of the 3D simulation running
-└── README.md                      ← explain what was broken, what you changed,
-                                      and why the transform rotation values are what they are
+└── README.md                      ← explain how did you figured out the connections, what were each values representing.
 ```
 
 The model must run from a single click of the **Run** button after `startup_Contact_Forces_Library.m` has been executed.
@@ -213,5 +211,4 @@ The model must run from a single click of the **Run** button after `startup_Cont
 | Prismatic Joint | https://www.mathworks.com/help/sm/ref/prismaticjoint.html |
 | Revolute Joint | https://www.mathworks.com/help/sm/ref/revolutejoint.html |
 | Goto block | https://www.mathworks.com/help/simulink/slref/goto.html |
-| Conveyor belt example | https://www.mathworks.com/help/sm/ug/conveyor-belt.html |
 | Contact Forces Library README | `Pick_And_Place/CFL_Core/README_contact_forces_core.txt` |
