@@ -108,10 +108,6 @@ In this model, the belt frame outputs need to reach the `Box to Belt Force` bloc
 
 Open the Belt Out subsystem (double-click it). Compare it carefully with Belt In. One connection is incomplete. You'll need to understand the roller chain — each Roller body connects to a Revolute joint, which connects to a Transform block, which positions the roller along the belt frame. The speed signal at the bottom drives all rollers through a gain and integrator.
 
-**→ [Conveyor Belt example from MathWorks](https://www.mathworks.com/help/sm/ug/conveyor-belt.html)**
-
-This example is structurally similar to what you have. Use it to understand how the roller-to-revolute-to-transform chain works.
-
 ### Contact Forces
 
 The box doesn't have a motor driving it — it gets pushed by friction forces between its bottom face and the belt surface. The `Box to Belt Force` blocks compute these contact forces. You don't need to modify them, but you should understand what inputs they expect:
